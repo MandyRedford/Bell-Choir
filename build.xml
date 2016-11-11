@@ -1,4 +1,4 @@
-<project name="Plant" default="compile" basedir=".">
+<project name="Bellchoir" default="compile" basedir=".">
   <!-- set global properties for this build -->
   <property name="src" location="src"/>
   <property name="dist" location="dist"/>
@@ -13,16 +13,23 @@
   </target>
 
   <target name="jar" depends="init,compile">
-    <jar destfile="${dist}/Plant.jar" basedir="${dist}/classes">
+    <jar destfile="${dist}/${ant.project.name}.jar" basedir="${dist}/classes">
       <manifest>
-        <attribute name="Main-Class" value="Plant"/>
+        <attribute name="Main-Class" value="${ant.project.name}"/>
       </manifest>
     </jar>
   </target>
 
-  <target name="run" depends="jar">
-    <java jar="dist/Plant.jar" fork="true"/>
+  <target name="run" depends="jar, songarg">
+    <java jar="dist/${ant.project.name}" fork="true"/>
+	<arg line= "${song}"/>
   </target>
+
+  <target name="songarg" unless= "song">
+    <property name="song" value= "${basedir}/MaryLamb.txt"/>
+  </target>
+
+
 
   <target name="clean">
     <delete dir="${dist}"/>
